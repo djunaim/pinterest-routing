@@ -5,6 +5,9 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import firebaseConnection from '../helpers/data/connection';
 import './App.scss';
 
 import Auth from '../components/pages/Auth/Auth';
@@ -23,10 +26,28 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   return <Route {...rest} render={(props) => routeChecker(props)} />;
 };
 
+// initialize firebase
+firebaseConnection();
+
 // auth will still ive in app in routing
 class App extends React.Component {
   state = {
-    authed: true,
+    authed: false,
+  }
+
+  componentDidMount() {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ authed: true });
+      } else {
+        this.setState({ authed: false });
+      }
+    });
+  }
+
+  // will remove event listener from componentDidMount
+  componentWillUnmount() {
+    this.removeListener();
   }
 
   render() {
