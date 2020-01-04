@@ -15,6 +15,8 @@ import Home from '../components/pages/Home/Home';
 import NewBoard from '../components/pages/NewBoard/NewBoard';
 import SingleBoard from '../components/pages/SingleBoard/SingleBoard';
 
+import MyNavbar from '../components/shared/MyNavbar/MyNavbar';
+
 // this is auth route. Function takes in component, authed, and whatever else put in the line. This function is returning a route and will do route making. Function will render props. If auth false, load auth component. The only thing will need to change is pathname routes
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = (props) => (authed === false ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/', state: { from: props.location } }} />);
@@ -59,6 +61,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Router>
+          <MyNavbar authed={authed} />
           <Switch>
             {/* go to path that is the exact match, and go to component of Home, NewBoard, Auth, etc.. */}
             {/* privateroutes need to check if user is authenticated. Need to pass authed */}
