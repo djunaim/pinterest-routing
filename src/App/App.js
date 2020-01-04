@@ -45,7 +45,7 @@ class App extends React.Component {
             <PrivateRoute path="/" exact component={Home} authed={authed} />
             <PrivateRoute path="/board/new" exact component={NewBoard} authed={authed} />
             <PublicRoute path="/auth" exact component={Auth} authed={authed} />
-            <PrivateRoute path="/ooard/:boardId" exact component={SingleBoard} authed={authed} />
+            <PrivateRoute path="/board/:boardId" exact component={SingleBoard} authed={authed} />
             {/* if want to see single pin: <PrivateRoute path="/board/:boardid/pin/:pindId" /> */}
           </Switch>
         </Router>
