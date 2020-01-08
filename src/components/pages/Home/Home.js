@@ -10,8 +10,8 @@ class Home extends React.Component {
     boards: [],
   }
 
-  // want boards to show right away on page load
-  componentDidMount() {
+  // have reusable function so it can be used in component did mount and in deleteBoard
+  getBoardsData = () => {
     boardData.getBoardsByUid(authData.getUid())
       .then((boards) => {
         this.setState({ boards });
@@ -19,15 +19,29 @@ class Home extends React.Component {
       .catch((error) => console.error(error));
   }
 
+  // want boards to show right away on page load
+  componentDidMount() {
+    this.getBoardsData();
+  }
+
+  // function needs to be written here because this is where state of board lives and where it will reprint the remaining boards when it is deleted
+  deleteBoard = (boardId) => {
+    boardData.deleteBoard(boardId)
+      .then(() => {
+        this.getBoardsData();
+      })
+      .catch((error) => console.error(error));
+  }
 
   render() {
     const boardId = '12345';
+    const { deleteBoard } = this.props;
     return (
       <div className="Home">
         <h1>Home Page</h1>
         <div className="boards d-flex flex-wrap">
           {/* mapping over boards so it will show on page */}
-          {this.state.boards.map((board) => <Board key={board.id} board={board} />)}
+          {this.state.boards.map((board) => <Board key={board.id} board={board} deleteBoard={deleteBoard} />)}
         </div>
         {/* link creates a tag and to will be href
         <Link className="btn btn-primary" to="/board/new">Create New Board</Link>
