@@ -32,6 +32,16 @@ class SingleBoard extends React.Component {
       .catch((error) => console.error(error));
   }
 
+  // deletePin function needs to be here since it is where state of pin lives
+  deletePin = (pinId) => {
+    const { boardId } = this.props.match.params;
+    pinData.deletePin(pinId)
+      .then(() => {
+        this.getPinData(boardId);
+      })
+      .catch((error) => console.error(error));
+  }
+
   render() {
     const { board } = this.state;
     return (
@@ -39,7 +49,7 @@ class SingleBoard extends React.Component {
         <h1>{board.name}</h1>
         <h4>{board.description}</h4>
         <div className="pins d-flex flex-wrap">
-          {this.state.pins.map((pin) => <Pin key={pin.id} pin={pin}/>)}
+          {this.state.pins.map((pin) => <Pin key={pin.id} pin={pin} deletePin={this.deletePin} />)}
         </div>
       </div>
     );
