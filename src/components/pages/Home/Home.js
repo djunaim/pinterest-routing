@@ -35,13 +35,12 @@ class Home extends React.Component {
 
   render() {
     const boardId = '12345';
-    const { deleteBoard } = this.props;
     return (
       <div className="Home">
         <h1>Home Page</h1>
         <div className="boards d-flex flex-wrap">
           {/* mapping over boards so it will show on page */}
-          {this.state.boards.map((board) => <Board key={board.id} board={board} deleteBoard={deleteBoard} />)}
+          {this.state.boards.map((board) => <Board key={board.id} board={board} deleteBoard={this.deleteBoard} />)}
         </div>
         {/* link creates a tag and to will be href
         <Link className="btn btn-primary" to="/board/new">Create New Board</Link>
