@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import pinShape from '../../../helpers/propz/pinShape';
 
@@ -24,6 +25,7 @@ class Pin extends React.Component {
           <div className="card-body">
             <h3 className="card-title">{pin.title}</h3>
             <button className="btn btn-danger" onClick={this.deletePinEvent}>X</button>
+            <Link className="btn btn-warning" to={`/board/${pin.boardId}/pin/${pin.id}/edit`}>Edit Pin</Link>
           </div>
         </div>
       </div>

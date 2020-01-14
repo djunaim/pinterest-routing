@@ -8,6 +8,18 @@ class PinForm extends React.Component {
     pinTitle: '',
   }
 
+  componentDidMount() {
+    const { pinId } = this.props.match.params;
+    if (pinId) {
+      pinData.getSinglePin(pinId)
+        .then((request) => {
+          const pin = request.data;
+          this.setState({ pinImageUrl: pin.imageUrl, pinTitle: pin.title });
+        })
+        .catch((error) => console.error(error));
+    }
+  }
+
   titleChange = (e) => {
     e.preventDefault();
     this.setState({ pinTitle: e.target.value });
@@ -37,8 +49,24 @@ class PinForm extends React.Component {
       .catch((error) => console.error(error));
   }
 
+  editPinEvent =(e) => {
+    e.preventDefault();
+    const { boardId, pinId } = this.props.match.params;
+    // firebase will create id
+    const editedPin = {
+      imageUrl: this.state.pinImageUrl,
+      title: this.state.pinTitle,
+      uid: authData.getUid(),
+      boardId,
+    };
+    pinData.updatePin(pinId, editedPin)
+      .then(() => this.props.history.push(`/board/${boardId}`))
+      .catch((error) => console.error(error));
+  }
+
   render() {
     const { pinImageUrl, pinTitle } = this.state;
+    const { pinId } = this.props.match.params;
     return (
       <form className="PinForm">
         <div className="form-group">
@@ -64,7 +92,10 @@ class PinForm extends React.Component {
             onChange={this.imageChange}
           />
         </div>
-        <button className="btn btn-success" onClick={this.savePinEvent}>Save Pin</button>
+        {
+          (!pinId) ? (<button className="btn btn-success" onClick={this.savePinEvent}>Save Pin</button>)
+            : (<button className="btb btn-warning" onClick={this.editPinEvent}>Edit Pin</button>)
+        }
       </form>
     );
   }
