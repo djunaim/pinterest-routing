@@ -68,9 +68,12 @@ class App extends React.Component {
             {/* privateroutes need to check if user is authenticated. Need to pass authed */}
             {/* the following has created 3 applications in 1 project */}
             <PrivateRoute path="/" exact component={Home} authed={authed} />
+            {/* the below loads BoardForm, which makes the form */}
             <PrivateRoute path="/board/new" exact component={BoardForm} authed={authed} />
             <PublicRoute path="/auth" exact component={Auth} authed={authed} />
             <PrivateRoute path="/board/:boardId" exact component={SingleBoard} authed={authed} />
+            {/* for edit, can reuse Boardform or make new component */}
+            <PrivateRoute path="/board/:boardId/edit" exact component={BoardForm} authed={authed} />
             <PrivateRoute path="/board/:boardId/pin/new" exact component={PinForm} authed={authed} />
             {/* if want to see single pin: <PrivateRoute path="/board/:boardid/pin/:pindId" /> */}
           </Switch>

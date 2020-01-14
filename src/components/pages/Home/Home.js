@@ -34,7 +34,6 @@ class Home extends React.Component {
   }
 
   render() {
-    const boardId = '12345';
     return (
       <div className="Home">
         <h1>Home Page</h1>

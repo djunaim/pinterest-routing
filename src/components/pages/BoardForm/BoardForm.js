@@ -10,6 +10,18 @@ class BoardForm extends React.Component {
     boardDescription: '',
   }
 
+  // need to run componentdidmount so can run on page load. Have if statement to check param
+  componentDidMount() {
+    const { boardId } = this.props.match.params;
+    if (boardId) {
+      boardData.getSingleBoard(boardId)
+        .then((response) => {
+          this.setState({ boardName: response.data.name, boardDescription: response.data.description });
+        })
+        .catch((error) => console.error(error));
+    }
+  }
+
   // can check this by looking at state of boardName within BoardForm
   nameChange = (e) => {
     e.preventDefault();
@@ -37,7 +49,21 @@ class BoardForm extends React.Component {
       .catch((error) => console.error(error));
   }
 
+  editBoardEvent = (e) => {
+    e.preventDefault();
+    const { boardId } = this.props.match.params;
+    const editBoard = {
+      name: this.state.boardName,
+      description: this.state.boardDescription,
+      uid: authData.getUid(),
+    };
+    boardData.updateBoard(boardId, editBoard)
+      .then(() => this.props.history.push('/'))
+      .catch((error) => console.error(error));
+  }
+
   render() {
+    const { boardId } = this.props.match.params;
     const { boardName, boardDescription } = this.state;
     return (
       <form className="BoardForm">
@@ -64,7 +90,11 @@ class BoardForm extends React.Component {
             onChange={this.descriptionChange}
           />
         </div>
-        <button className="btn btn-primary" onClick={this.saveBoardEvent}>Save Board</button>
+        {/* if there is no boardID, will show save board button. If there is boardId, will show edit board button */}
+        {
+          (!boardId) ? (<button className="btn btn-primary" onClick={this.saveBoardEvent}>Save Board</button>)
+            : (<button className="btn btn-primary" onClick={this.editBoardEvent}>Edit Board</button>)
+        }
       </form>
     );
   }
