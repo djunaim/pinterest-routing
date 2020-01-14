@@ -10,6 +10,18 @@ class BoardForm extends React.Component {
     boardDescription: '',
   }
 
+  // need to run componentdidmount so can run on page load. Have if statement to check param
+  componentDidMount() {
+    const { boardId } = this.props.match.params;
+    if (boardId) {
+      boardData.getSingleBoard(boardId)
+        .then((response) => {
+          this.setState({ boardName: response.data.name, boardDescription: response.data.description });
+        })
+        .catch((error) => console.error(error));
+    }
+  }
+
   // can check this by looking at state of boardName within BoardForm
   nameChange = (e) => {
     e.preventDefault();

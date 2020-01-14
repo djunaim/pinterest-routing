@@ -24,6 +24,7 @@ class Board extends React.Component {
         <div className="card">
           <div className="card-body">
             <button className="btn btn-danger" onClick={this.deleteBoardEvent}>X</button>
+            <Link className="btn btn-warning" to={`/board/${board.id}/edit`}>Edit</Link>
             <h3 className="card-title">{board.name}</h3>
             <p className="card-text">{board.description}</p>
             {/* need a Link styles like a button so it can take to single board view */}
