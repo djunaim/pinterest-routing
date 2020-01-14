@@ -75,6 +75,8 @@ class App extends React.Component {
             {/* for edit, can reuse Boardform or make new component */}
             <PrivateRoute path="/board/:boardId/edit" exact component={BoardForm} authed={authed} />
             <PrivateRoute path="/board/:boardId/pin/new" exact component={PinForm} authed={authed} />
+            {/* now need both boardId and pinId and want to load pin form */}
+            <PrivateRoute path="/board/:boardId/pin/:pinId/edit" exact component={PinForm} authed={authed} />
             {/* if want to see single pin: <PrivateRoute path="/board/:boardid/pin/:pindId" /> */}
           </Switch>
         </Router>
